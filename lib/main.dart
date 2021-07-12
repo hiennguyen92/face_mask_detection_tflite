@@ -3,12 +3,12 @@ import 'package:camera/camera.dart';
 import 'package:tflite/tflite.dart';
 
 
-List<CameraDescription> listCamera;
+late List<CameraDescription> listCamera;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   listCamera = await availableCameras();
-  runApp(MyApp());
+  runApp(Application());
 }
 
 class Application extends StatelessWidget {
@@ -17,7 +17,7 @@ class Application extends StatelessWidget {
     return new MaterialApp(
       theme: ThemeData.light(),
       home: MainPage(),
-    )
+    );
   }
 }
 
@@ -81,7 +81,7 @@ class _MainPageState extends State<MainPage> {
         .initialize()
         .then((value) => {
       setState(() {
-        _cameraController.startImageStream((image) => {
+        _cameraController.startImageStream((image) {
           _cameraImage = image;
           runModel();
         });
