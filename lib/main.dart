@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:tflite/tflite.dart';
 
-
 late List<CameraDescription> listCamera;
 
 Future<void> main() async {
@@ -29,17 +28,22 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-
   late CameraImage _cameraImage;
   late CameraController _cameraController;
+  late Future<void> _initializeControllerFuture;
   String result = "";
 
-  @override
   @override
   void initState() {
     super.initState();
     initCamera();
     loadModel();
+  }
+
+  @override
+  void dispose() {
+    _cameraController.dispose();
+    super.dispose();
   }
 
   @override
@@ -56,17 +60,26 @@ class _MainPageState extends State<MainPage> {
               child: Container(
                 height: MediaQuery.of(context).size.height - 170,
                 width: MediaQuery.of(context).size.width,
-                child: _cameraController.value.isInitialized
-                    ? Container()
-                    : AspectRatio(
-                  aspectRatio: _cameraController.value.aspectRatio,
-                  child: CameraPreview(_cameraController),
+                child: FutureBuilder<void>(
+                  future: _initializeControllerFuture,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      // If the Future is complete, display the preview.
+                      return AspectRatio(
+                        aspectRatio: _cameraController.value.aspectRatio,
+                        child: CameraPreview(_cameraController),
+                      );
+                    } else {
+                      // Otherwise, display a loading indicator.
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                  },
                 ),
               ),
             ),
             Text(
               result,
-              style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25),
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
             )
           ],
         ),
@@ -76,17 +89,16 @@ class _MainPageState extends State<MainPage> {
 
   void initCamera() {
     _cameraController =
-        CameraController(listCamera[0], ResolutionPreset.medium);
-    _cameraController
-        .initialize()
-        .then((value) => {
-      setState(() {
-        _cameraController.startImageStream((image) {
-          _cameraImage = image;
-          runModel();
-        });
-      })
-    });
+        CameraController(listCamera[1], ResolutionPreset.medium);
+    _initializeControllerFuture =
+        _cameraController.initialize().then((value) => {
+              setState(() {
+                _cameraController.startImageStream((image) {
+                  _cameraImage = image;
+                  runModel();
+                });
+              })
+            });
   }
 
   void loadModel() async {
@@ -115,5 +127,3 @@ class _MainPageState extends State<MainPage> {
       });
   }
 }
-
-
