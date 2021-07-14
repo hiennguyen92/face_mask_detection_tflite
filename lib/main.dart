@@ -102,8 +102,9 @@ class _MainPageState extends State<MainPage> {
   }
 
   void loadModel() async {
+    Tflite.close();
     await Tflite.loadModel(
-        model: "assets/model_unquant.tflite", labels: "assets/labels.txt");
+        model: "assets/model.tflite", labels: "assets/labels.txt");
   }
 
   void runModel() async {
