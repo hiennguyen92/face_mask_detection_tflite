@@ -30,6 +30,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   tflite: ^1.1.2
   camera: ^0.8.1
+  # Design responsive
+  flutter_screenutil: 5.0.0+2
 
 dev_dependencies:
   flutter_test:
@@ -50,6 +52,17 @@ flutter:
   assets:
     - assets/labels.txt
     - assets/model.tflite
+    - assets/images/
+    - assets/fonts/
+  fonts:
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/Roboto-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Roboto-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Roboto-Regular.ttf
+          weight: 400
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
