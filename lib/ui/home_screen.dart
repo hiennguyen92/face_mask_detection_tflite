@@ -1,20 +1,36 @@
 import 'package:face_mask_detection_tflite/app/app_resources.dart';
+import 'package:face_mask_detection_tflite/ui/camera_screen.dart';
 import 'package:face_mask_detection_tflite/widgets/button_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen extends StatelessWidget {
+
+
+
+  gotoWebPage() async {
+    if (await canLaunch(AppStrings.urlRepo)) {
+      await launch(AppStrings.urlRepo);
+    } else {
+
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: AppColors.black,
+        ),
         elevation: 0.0,
         centerTitle: true,
         actions: [
           IconButton(
               onPressed: () {},
               icon: Icon(
-                AppIcons.code,
-                color: AppColors.green,
+                AppIcons.formatQuote,
                 size: 25,
                 semanticLabel: AppStrings.codeString,
               ))
@@ -40,7 +56,9 @@ class HomeScreen extends StatelessWidget {
             ),
             ButtonWidget(
                 type: ButtonType.MATERIAL,
-                onClickListener: () {},
+                onClickListener: () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (_) => CameraScreen()));
+                },
                 width: 200,
                 color: AppColors.red,
                 borderRadius: BorderRadius.circular(15),

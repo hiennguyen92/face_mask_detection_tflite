@@ -4,8 +4,9 @@ class AppIcons {
   static const IconData exit = Icons.exit_to_app;
   static const IconData cameraFront = Icons.camera_front;
   static const IconData cameraRear = Icons.camera_rear;
-  static const IconData code = Icons.code;
+  static const IconData formatQuote = Icons.format_quote;
   static const IconData imageIcon = Icons.image;
+  static const IconData option = Icons.more_vert;
 }
 
 class AppFonts {
@@ -74,5 +75,5 @@ class AppStrings {
   static const String title = 'Face Mask Detection';
   static const String fromGallery = "From Gallery";
 
-  static const String urlString = "https://github.com/hiennguyen92/face_mask_detection_tflite";
+  static const String urlRepo = "https://github.com/hiennguyen92/face_mask_detection_tflite";
 }

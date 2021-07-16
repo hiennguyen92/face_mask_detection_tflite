@@ -30,8 +30,11 @@ dependencies:
   cupertino_icons: ^1.0.2
   tflite: ^1.1.2
   camera: ^0.8.1
+  provider: ^5.0.0
   # Design responsive
   flutter_screenutil: 5.0.0+2
+  # Utils
+  url_launcher: ^6.0.9
 
 dev_dependencies:
   flutter_test:

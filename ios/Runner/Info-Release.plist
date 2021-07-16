@@ -41,6 +41,11 @@
 	</array>
 	<key>NSCameraUsageDescription</key>
 	<string>Camera usage description</string>
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+      <string>https</string>
+      <string>http</string>
+    </array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 </dict>
