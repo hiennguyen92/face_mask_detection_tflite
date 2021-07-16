@@ -54,7 +54,7 @@ class AppColors {
 }
 
 class AppImages {
-  static const String illustrator = "assets/images/illustrator.jpeg";
+  static const String illustrator = "assets/images/illustrator.jpg";
 }
 
 class AppStrings {

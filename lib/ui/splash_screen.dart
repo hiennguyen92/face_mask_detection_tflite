@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:face_mask_detection_tflite/services/navigation_service.dart';
 import 'package:face_mask_detection_tflite/ui/home_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -16,8 +17,11 @@ class _SplashScreenStare extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Timer(Duration(seconds: 5),
-        () => Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => HomeScreen())));
+    SchedulerBinding.instance?.addPostFrameCallback((timeStamp) {
+      Future.delayed(Duration(seconds: 2), () {
+        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (_) => HomeScreen()), (_) => false);
+      });
+    });
   }
 
   @override
