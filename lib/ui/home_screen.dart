@@ -1,5 +1,6 @@
 import 'package:face_mask_detection_tflite/app/app_resources.dart';
 import 'package:face_mask_detection_tflite/ui/camera_screen.dart';
+import 'package:face_mask_detection_tflite/ui/local_screen.dart';
 import 'package:face_mask_detection_tflite/widgets/button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -8,7 +9,7 @@ class HomeScreen extends StatelessWidget {
 
 
 
-  gotoWebPage() async {
+  _gotoRepo() async {
     if (await canLaunch(AppStrings.urlRepo)) {
       await launch(AppStrings.urlRepo);
     } else {
@@ -28,7 +29,9 @@ class HomeScreen extends StatelessWidget {
         centerTitle: true,
         actions: [
           IconButton(
-              onPressed: () {},
+              onPressed: () {
+                _gotoRepo();
+              },
               icon: Icon(
                 AppIcons.formatQuote,
                 size: 25,
@@ -38,7 +41,7 @@ class HomeScreen extends StatelessWidget {
         backgroundColor: AppColors.yellow,
         title: Text(
           AppStrings.title,
-          style: AppTextStyles.boldTextStyle(color: AppColors.black),
+          style: AppTextStyles.boldTextStyle(color: AppColors.black, fontSize: AppFontSizes.large),
         ),
       ),
       body: Container(
@@ -60,11 +63,11 @@ class HomeScreen extends StatelessWidget {
                   Navigator.of(context).push(MaterialPageRoute(builder: (_) => CameraScreen()));
                 },
                 width: 200,
-                color: AppColors.red,
+                color: AppColors.green,
                 borderRadius: BorderRadius.circular(15),
                 borderWidth: 3.0,
                 borderColor: AppColors.white,
-                colorSelected: AppColors.red,
+                colorSelected: AppColors.green,
                 text: AppStrings.liveCamera,
                 textStyle:
                     AppTextStyles.regularTextStyle(color: AppColors.white)),
@@ -73,13 +76,15 @@ class HomeScreen extends StatelessWidget {
             ),
             ButtonWidget(
                 type: ButtonType.MATERIAL,
-                onClickListener: () {},
+                onClickListener: () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (_) => LocalScreen()));
+                },
                 width: 200,
-                color: AppColors.red,
+                color: AppColors.green,
                 borderRadius: BorderRadius.circular(15),
                 borderWidth: 3.0,
                 borderColor: AppColors.white,
-                colorSelected: AppColors.red,
+                colorSelected: AppColors.green,
                 text: AppStrings.fromGallery,
                 textStyle:
                     AppTextStyles.regularTextStyle(color: AppColors.white))

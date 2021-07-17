@@ -35,10 +35,11 @@ class _CameraScreenState extends BaseState<CameraScreen, CameraViewModel>
     super.initState();
     pageName = "Camera";
     viewModel = CameraViewModel(context);
-    viewModel.loadData(isShowLoading: true);
+    viewModel.showLoading(isShowLoading: true);
     WidgetsBinding.instance?.addObserver(this);
     initCamera();
     loadModel();
+    viewModel.showLoading(isShowLoading: false);
   }
 
   @override
@@ -62,8 +63,8 @@ class _CameraScreenState extends BaseState<CameraScreen, CameraViewModel>
             });
   }
 
-  void loadModel() {
-    _tensorFlowService.loadModel();
+  void loadModel() async {
+    await _tensorFlowService.loadModel();
   }
 
   void runModel() async {
@@ -138,7 +139,7 @@ class _CameraScreenState extends BaseState<CameraScreen, CameraViewModel>
             backgroundColor: AppColors.yellow,
             title: Text(
               AppStrings.title,
-              style: AppTextStyles.boldTextStyle(color: AppColors.black),
+              style: AppTextStyles.boldTextStyle(color: AppColors.black, fontSize: AppFontSizes.large),
             ),
           ),
           body: initView(),
@@ -188,7 +189,7 @@ class _CameraScreenState extends BaseState<CameraScreen, CameraViewModel>
                         child: CameraPreview(_cameraController),
                       ),
                       ConfidenceWidget(
-                        entities: _recognitions ?? <dynamic>[],
+                        entities: _recognitions,
                       )
                     ],
                   );

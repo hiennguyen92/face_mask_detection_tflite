@@ -2,7 +2,7 @@
 
 class CameraViewState {
 
-  bool _rear;
+  int _rear;
 
   CameraViewState(this._rear);
 }

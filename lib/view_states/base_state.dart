@@ -1,4 +1,5 @@
-import 'package:face_mask_detection_tflite/view_models/base_viewmodels.dart';
+import 'package:face_mask_detection_tflite/app/app_resources.dart';
+import 'package:face_mask_detection_tflite/view_models/base_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -23,7 +24,14 @@ abstract class BaseState<T extends StatefulWidget, E extends BaseViewModel>
   }
 
   Widget loadingWidget(){
-    return Text('Loading...');
+    return Container(
+        height: MediaQuery.of(context).size.height,
+        width: double.infinity,
+        decoration: BoxDecoration(
+            color: AppColors.yellow.withOpacity(0.4),
+            border: Border.all(color: AppColors.yellow, width: 5)),
+        child: Center(child: CircularProgressIndicator(color: AppColors.yellow))
+    );
   }
 
 

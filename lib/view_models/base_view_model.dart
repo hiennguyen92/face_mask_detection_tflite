@@ -20,6 +20,6 @@ abstract class BaseViewModel<T> with ChangeNotifier {
   BaseViewModel(this._context);
 
   @protected
-  Future loadData({ bool isShowLoading = true });
+  Future showLoading({ bool isShowLoading = true });
 
 }
