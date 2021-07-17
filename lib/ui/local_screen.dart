@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:face_mask_detection_tflite/app/app_resources.dart';
-import 'package:face_mask_detection_tflite/services/tensorflow_service.dart';
 import 'package:face_mask_detection_tflite/view_models/local_view_model.dart';
 import 'package:face_mask_detection_tflite/view_states/base_state.dart';
 import 'package:flutter/material.dart';
@@ -16,13 +15,8 @@ class LocalScreen extends StatefulWidget {
 }
 
 class _LocalScreenState extends BaseState<LocalScreen, LocalViewModel> {
-  final TensorFlowService _tensorFlowService = TensorFlowService();
-  List<dynamic> _recognitions = <dynamic>[];
-  File? _image;
-  bool _loading = false;
+
   ImagePicker _imagePicker = ImagePicker();
-  String _text = "";
-  XFile? _imageFile;
 
   @override
   void initState() {
@@ -36,32 +30,20 @@ class _LocalScreenState extends BaseState<LocalScreen, LocalViewModel> {
 
   selectImage() async {
     viewModel.showLoading(isShowLoading: true);
-      _imageFile = await _imagePicker.pickImage(source: ImageSource.gallery);
-      if (_imageFile == null) {
-        viewModel.showLoading(isShowLoading: false);
-        return;
-      }
-      setState(() {
-        _loading = true;
-        _image = File(_imageFile!.path);
-      });
-      runModelOnImage(_image!);
+    XFile? _imageFile = await _imagePicker.pickImage(source: ImageSource.gallery);
+    if (_imageFile == null) {
+      viewModel.showLoading(isShowLoading: false);
+      return;
     }
-
-
-  runModelOnImage(File image) async {
-    var recognitions = await _tensorFlowService.runModelOnImage(image);
-    viewModel.showLoading(isShowLoading: false);
-    var text = (recognitions != null) ? recognitions[0]['label'] : '';
-    _updateRecognitions(recognitions: recognitions, text: text);
+    viewModel.updateImageSelected(File(_imageFile.path));
+    runModelOnImage();
   }
 
-  void _updateRecognitions({List<dynamic>? recognitions, String text = ''}) {
-    if (mounted && recognitions != null) {
-      setState(() {
-        _recognitions = recognitions;
-        _text = text;
-      });
+  runModelOnImage() async {
+    var fileSelected = viewModel.getFileSelected();
+    if (mounted && fileSelected != null) {
+      await viewModel.runModelOnImage(fileSelected);
+      viewModel.showLoading(isShowLoading: false);
     }
   }
 
@@ -111,7 +93,7 @@ class _LocalScreenState extends BaseState<LocalScreen, LocalViewModel> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              _image == null
+              viewModel.getFileSelected() == null
                   ? Container(
                       child: Text(
                         AppStrings.selectImagePreview,
@@ -121,7 +103,7 @@ class _LocalScreenState extends BaseState<LocalScreen, LocalViewModel> {
                       ),
                     )
                   : Image.file(
-                      _image!,
+                      viewModel.getFileSelected()!,
                       height: MediaQuery.of(context).size.height / 2,
                       width: MediaQuery.of(context).size.width,
                     ),
@@ -129,9 +111,9 @@ class _LocalScreenState extends BaseState<LocalScreen, LocalViewModel> {
                 height: 20,
               ),
               Text(
-                _text,
+                viewModel.getTextDetected(),
                 style: AppTextStyles.regularTextStyle(
-                    color: _text == AppStrings.withoutMask
+                    color: viewModel.getTextDetected() == AppStrings.withoutMask
                         ? AppColors.red
                         : AppColors.green,
                     fontSize: AppFontSizes.medium),
@@ -144,6 +126,6 @@ class _LocalScreenState extends BaseState<LocalScreen, LocalViewModel> {
   }
 
   void loadModel() async {
-    await _tensorFlowService.loadModel();
+    await viewModel.loadModel();
   }
 }

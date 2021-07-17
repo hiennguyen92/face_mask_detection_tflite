@@ -3,13 +3,11 @@ import 'dart:math';
 import 'package:camera/camera.dart';
 import 'package:face_mask_detection_tflite/app/app_resources.dart';
 import 'package:face_mask_detection_tflite/main.dart';
-import 'package:face_mask_detection_tflite/services/tensorflow_service.dart';
 import 'package:face_mask_detection_tflite/view_models/camera_view_model.dart';
 import 'package:face_mask_detection_tflite/view_states/base_state.dart';
 import 'package:face_mask_detection_tflite/widgets/confidence_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tflite/tflite.dart';
 
 class CameraScreen extends StatefulWidget {
   @override
@@ -20,12 +18,8 @@ class CameraScreen extends StatefulWidget {
 
 class _CameraScreenState extends BaseState<CameraScreen, CameraViewModel>
     with AutomaticKeepAliveClientMixin, WidgetsBindingObserver {
-  final TensorFlowService _tensorFlowService = TensorFlowService();
-  late CameraImage _cameraImage;
   late CameraController _cameraController;
   late Future<void> _initializeControllerFuture;
-  List<dynamic> _recognitions = <dynamic>[];
-  int cameraIdx = 1;
 
   @override
   bool get wantKeepAlive => true;
@@ -50,51 +44,35 @@ class _CameraScreenState extends BaseState<CameraScreen, CameraViewModel>
   }
 
   void initCamera() {
-    _cameraController =
-        CameraController(listCamera[cameraIdx], ResolutionPreset.medium);
+    _cameraController = CameraController(
+        listCamera[viewModel.cameraIndex()], ResolutionPreset.medium);
     _initializeControllerFuture =
         _cameraController.initialize().then((value) => {
               setState(() {
                 _cameraController.startImageStream((image) {
-                  _cameraImage = image;
-                  runModel();
+                  runModel(image);
                 });
               })
             });
   }
 
   void loadModel() async {
-    await _tensorFlowService.loadModel();
+    await viewModel.loadModel();
   }
 
-  void runModel() async {
-    var recognitions = await _tensorFlowService.runModelOnFrame(_cameraImage);
-    _updateRecognitions(
-      recognitions: recognitions,
-    );
-  }
-
-  void _updateRecognitions({List<dynamic>? recognitions}) {
-    if (mounted && recognitions != null) {
-      setState(() {
-        _recognitions = recognitions;
-      });
+  void runModel(CameraImage image) async {
+    if(mounted){
+       await viewModel.runModel(image);
     }
   }
 
-  handleMenuItemClick(int item) {
+
+  handleSwitchCameraClick(int item) {
     switch (item) {
       case 0:
-        this.setState(() {
-          cameraIdx = 0;
-          initCamera();
-        });
-        break;
       case 1:
-        this.setState(() {
-          cameraIdx = 1;
-          initCamera();
-        });
+        viewModel.switchCamera();
+        initCamera();
         break;
     }
   }
@@ -113,10 +91,10 @@ class _CameraScreenState extends BaseState<CameraScreen, CameraViewModel>
             centerTitle: true,
             actions: [
               PopupMenuButton<int>(
-                  onSelected: (item) => handleMenuItemClick(item),
+                  onSelected: (item) => handleSwitchCameraClick(item),
                   itemBuilder: (context) => [
                         PopupMenuItem(
-                            enabled: cameraIdx != 0,
+                            enabled: viewModel.isBackCamera(),
                             child: Row(
                               children: <Widget>[
                                 Icon(Icons.camera_rear, color: AppColors.black),
@@ -125,7 +103,7 @@ class _CameraScreenState extends BaseState<CameraScreen, CameraViewModel>
                             ),
                             value: 0),
                         PopupMenuItem(
-                            enabled: cameraIdx != 1,
+                            enabled: viewModel.isFrontCamera(),
                             child: Row(
                               children: <Widget>[
                                 Icon(Icons.camera_front,
@@ -139,7 +117,8 @@ class _CameraScreenState extends BaseState<CameraScreen, CameraViewModel>
             backgroundColor: AppColors.yellow,
             title: Text(
               AppStrings.title,
-              style: AppTextStyles.boldTextStyle(color: AppColors.black, fontSize: AppFontSizes.large),
+              style: AppTextStyles.boldTextStyle(
+                  color: AppColors.black, fontSize: AppFontSizes.large),
             ),
           ),
           body: initView(),
@@ -163,10 +142,6 @@ class _CameraScreenState extends BaseState<CameraScreen, CameraViewModel>
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
                   // If the Future is complete, display the preview.
-                  // return AspectRatio(
-                  //   aspectRatio: _cameraController.value.aspectRatio,
-                  //   child: CameraPreview(_cameraController),
-                  // );
                   final Size screen = MediaQuery.of(context).size;
                   final double screenHeight = max(screen.height, screen.width);
                   final double screenWidth = min(screen.height, screen.width);
@@ -189,7 +164,7 @@ class _CameraScreenState extends BaseState<CameraScreen, CameraViewModel>
                         child: CameraPreview(_cameraController),
                       ),
                       ConfidenceWidget(
-                        entities: _recognitions,
+                        entities: viewModel.getRecognitions(),
                       )
                     ],
                   );

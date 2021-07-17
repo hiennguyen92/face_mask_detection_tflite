@@ -5,6 +5,8 @@ abstract class BaseViewModel<T> with ChangeNotifier {
 
   BuildContext _context;
 
+  T _viewState;
+
   bool _isLoading = false;
 
   set isLoading(bool isLoading) {
@@ -16,8 +18,10 @@ abstract class BaseViewModel<T> with ChangeNotifier {
 
   bool get isLoading => _isLoading;
 
+  T get viewState => _viewState;
 
-  BaseViewModel(this._context);
+
+  BaseViewModel(this._context, this._viewState);
 
   @protected
   Future showLoading({ bool isShowLoading = true });
