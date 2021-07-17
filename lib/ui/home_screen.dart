@@ -32,10 +32,10 @@ class HomeScreen extends StatelessWidget {
               icon: Icon(
                 AppIcons.formatQuote,
                 size: 25,
-                semanticLabel: AppStrings.codeString,
+                semanticLabel: 'Repo',
               ))
         ],
-        backgroundColor: AppColors.yellow.withOpacity(0.6),
+        backgroundColor: AppColors.yellow,
         title: Text(
           AppStrings.title,
           style: AppTextStyles.boldTextStyle(color: AppColors.black),

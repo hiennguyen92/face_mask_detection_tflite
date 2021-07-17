@@ -18,7 +18,6 @@ abstract class BaseState<T extends StatefulWidget, E extends BaseViewModel>
 
   Widget initView() {
     return Consumer<E>(builder: (build, provide, _) {
-      print('Consumer-initView-${viewModel.isLoading}');
       return viewModel.isLoading ? loadingWidget() : buildView();
     });
   }
@@ -36,25 +35,21 @@ abstract class BaseState<T extends StatefulWidget, E extends BaseViewModel>
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    print("didChangeDependencies: ${pageName}");
   }
 
   @override
   void didUpdateWidget(covariant T oldWidget) {
     super.didUpdateWidget(oldWidget);
-    print("didUpdateWidget: ${pageName}");
   }
 
   @override
   void deactivate() {
     super.deactivate();
-    print("deactivate:${pageName}");
   }
 
   @override
   void dispose() {
     super.dispose();
-    print("dispose: ${pageName}");
   }
 
 

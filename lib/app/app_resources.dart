@@ -49,9 +49,7 @@ class AppColors {
   static const Color yellow = Colors.yellow;
   static const Color green = Colors.green;
   static const Color black = Colors.black;
-  static const Color yellowAccent = Colors.yellowAccent;
   static const Color transparent = Colors.transparent;
-  static const Color greenAccent = Colors.greenAccent;
 }
 
 class AppImages {
@@ -59,20 +57,15 @@ class AppImages {
 }
 
 class AppStrings {
-  static const String withMask = "with_mask";
-  static const String withoutMask = "without_mask";
-  static const String labelString = "label";
-  static const String confidenceString = "confidence";
+  static const String title = 'Face Mask Detection';
+  static const String withMask = "WithMask";
+  static const String withoutMask = "WithoutMask";
   static const String dontShake = "Don\'t Shake your mobile";
-  static const String wearingMask = "Wearing mask";
-  static const String noMask = "No mask";
   static const String pickIFG = "Pick Image from gallery";
   static const String selectImageP = "Select an Image to Show Preview";
   static const String gilroy = "Gilroy";
   static const String noCamera = 'Looks like there are no cameras';
-  static const String codeString = "Code";
   static const String liveCamera = "Live Camera";
-  static const String title = 'Face Mask Detection';
   static const String fromGallery = "From Gallery";
 
   static const String urlRepo = "https://github.com/hiennguyen92/face_mask_detection_tflite";
