@@ -136,7 +136,8 @@ Output format:
 ```
 * IOS
 1.'vector' file not found
-Open ios/Runner.xcworkspace in Xcode, click Runner > Tagets > Runner > Build Settings, search Compile Sources As, change the value to Objective-C++
+Open ios/Runner.xcworkspace in Xcode, click Runner > Tagets > Runner >Build Settings, 
+search Compile Sources As, change the value to Objective-C++
 
 2. 'tensorflow/lite/kernels/register.h' file not found
 The plugin assumes the tensorflow header files are located in path "tensorflow/lite/kernels".
