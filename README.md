@@ -154,9 +154,17 @@ https://github.com/hiennguyen92/face_mask_detection_tflite
 
 1. Demo Illustration: https://www.youtube.com/watch?v=2er_XZb_oi4&ab_channel=HienNguyen
 2. Image
-
-<img src="https://raw.githubusercontent.com/hiennguyen92/face_mask_detection_tflite/master/images/image1.jpg" width="300">
-<img src="https://raw.githubusercontent.com/hiennguyen92/face_mask_detection_tflite/master/images/image2.jpg" width="300">
-<img src="https://raw.githubusercontent.com/hiennguyen92/face_mask_detection_tflite/master/images/image3.jpg" width="300">
-<img src="https://raw.githubusercontent.com/hiennguyen92/face_mask_detection_tflite/master/images/image4.jpg" width="300">
-<img src="https://raw.githubusercontent.com/hiennguyen92/face_mask_detection_tflite/master/images/image5.jpg" width="300">
+<table>
+  <tr>
+    <td><img src="https://raw.githubusercontent.com/hiennguyen92/face_mask_detection_tflite/master/images/image1.jpg" width="250"></td>
+    <td><img src="https://raw.githubusercontent.com/hiennguyen92/face_mask_detection_tflite/master/images/image2.jpg" width="250"></td>
+  </tr>
+  <tr>
+    <td><img src="https://raw.githubusercontent.com/hiennguyen92/face_mask_detection_tflite/master/images/image3.jpg" width="250"></td>
+    <td><img src="https://raw.githubusercontent.com/hiennguyen92/face_mask_detection_tflite/master/images/image4.jpg" width="250"></td>
+  </tr>
+  <tr>
+    <td><img src="https://raw.githubusercontent.com/hiennguyen92/face_mask_detection_tflite/master/images/image5.jpg" width="250"></td>
+    <td></td>
+  </tr>
+ </table>
