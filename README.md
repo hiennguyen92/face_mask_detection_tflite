@@ -57,7 +57,7 @@ minSdkVersion 21
 3. Train our model
 
 ```
- * Download the dataset for training
+* Download the dataset for training
     https://www.kaggle.com/prasoonkottarathil/face-mask-lite-dataset
 
 * Training
@@ -152,5 +152,5 @@ https://github.com/hiennguyen92/face_mask_detection_tflite
   * <a href='https://github.com/hiennguyen92/face_mask_detection_tflite'>https://github.com/hiennguyen92/face_mask_detection_tflite</a>
 ## :bulb: Demo
 
-1. Demo Illustration: youtube
+1. Demo Illustration: https://www.youtube.com/watch?v=2er_XZb_oi4&ab_channel=HienNguyen
 2. Image
