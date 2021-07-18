@@ -13,6 +13,8 @@ An app made with flutter and tensor flow lite for face mask detection.
 * Detect mask from a photo
 * MVVM architecture
 
+  <br>
+
 ## 🚀&nbsp; Installation
 
 1. Install Packages
@@ -20,15 +22,21 @@ An app made with flutter and tensor flow lite for face mask detection.
 camera: get the streaming image buffers
 https://pub.dev/packages/camera
 ```
+  * <a href='https://pub.dev/packages/camera'>https://pub.dev/packages/camera</a>
 ```
 tflite: run our trained model
 https://pub.dev/packages/tflite
 ```
+  * <a href='https://pub.dev/packages/tflite'>https://pub.dev/packages/tflite</a>
 ```
 image_picker: pick image from gallery
 https://pub.dev/packages/image_picker
 ```
-1. Configure Project
+  * <a href='https://pub.dev/packages/image_picker'>https://pub.dev/packages/image_picker</a>
+
+  <br>
+2. Configure Project
+
 * Android
 ```
 android/app/build.gradle
@@ -45,7 +53,9 @@ android {
 
 minSdkVersion 21
 ```
+  <br>
 3. Train our model
+
 ```
  * Download the dataset for training
     https://www.kaggle.com/prasoonkottarathil/face-mask-lite-dataset
@@ -57,20 +67,31 @@ minSdkVersion 21
     - Edit `Class 1` for any Label(example `WithMask`)
     - Edit `Class 2` for any Label(example `WithoutMask`)
     - Update image from dataset download above
-    - Click `Train Model` and waiting...
+    - Click `Train Model`(using default config) and waiting...
     - Click `Export Model` and select `Tensorflow Lite`
     - Download (include: *.tflite, labels.txt)
 ```
+  * <a href='https://www.kaggle.com/prasoonkottarathil/face-mask-lite-dataset'>https://www.kaggle.com/prasoonkottarathil/face-mask-lite-dataset</a>
+  * <a href='https://teachablemachine.withgoogle.com'>https://teachablemachine.withgoogle.com</a>
 
+  <br>
 4. Load model
+
 ```
 loadModel() async {
     Tflite.close();
     await Tflite.loadModel(
-        model: "assets/model.tflite", labels: "assets/labels.txt");
+        model: "assets/model.tflite", 
+        labels: "assets/labels.txt",
+        //numThreads: 1, // defaults to 1
+        //isAsset: true, // defaults: true, set to false to load resources outside assets
+        //useGpuDelegate: false // defaults: false, use GPU delegate
+    );
   }
 ```
+  <br>
 5. Run model
+
 ```
   Future<List<dynamic>?> runModelOnFrame(CameraImage image) async {
     var recognitions = await Tflite.runModelOnFrame(
@@ -79,12 +100,13 @@ loadModel() async {
         }).toList(),
         imageHeight: image.height,
         imageWidth: image.width,
-        imageMean: 127.5,
-        imageStd: 127.5,
-        rotation: 90,
-        numResults: 2,
-        threshold: 0.5,
-        asynch: true);
+        imageMean: 127.5,   //defaults to 127.5
+        imageStd: 127.5,    //defaults to 127.5
+        rotation: 90,       // defaults to 90, Android only
+        numResults: 2,      // defaults to 5
+        threshold: 0.5,     // defaults to 0.1
+        asynch: true,       // defaults to true
+    );      
     return recognitions;
   }
 ```
@@ -100,6 +122,15 @@ loadModel() async {
     return recognitions;
   }
 ```
+```
+Output format:
+  [{
+    index: 0,
+    label: "WithMask",
+    confidence: 0.989
+  },...]
+```
+  <br>
 6. Issue
 
 ```
@@ -111,11 +142,15 @@ Open ios/Runner.xcworkspace in Xcode, click Runner > Tagets > Runner > Build Set
 The plugin assumes the tensorflow header files are located in path "tensorflow/lite/kernels".
 However, for early versions of tensorflow the header path is "tensorflow/contrib/lite/kernels".
 ```
-
-
+  <br>
 7. Source code
+
 ```
 please checkout repo github
 https://github.com/hiennguyen92/face_mask_detection_tflite
 ```
+  * <a href='https://github.com/hiennguyen92/face_mask_detection_tflite'>https://github.com/hiennguyen92/face_mask_detection_tflite</a>
 ## :bulb: Demo
+
+1. Demo Illustration: youtube
+2. Image
